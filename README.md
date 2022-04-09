@@ -31,3 +31,10 @@ systemctl enable bed_ctl.service
 
 systemctl start bed_ctl.service
 ```
+
+# Materials
+## Driver Board
+- [OshPark Link to order](https://oshpark.com/shared_projects/JDcTUy17)
+
+## Pi RJ45 Board
+- [OshPark Link to order](https://oshpark.com/shared_projects/Bbv4X0oO)
