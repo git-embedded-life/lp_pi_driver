@@ -1,0 +1,11 @@
+[Unit]
+Description=Bed Controller
+After=network-online.target
+ 
+[Service]
+Type=simple
+ExecStart=/home/pi/lp_pi_driver/bed_ctl.py
+Restart=always
+ 
+[Install]
+WantedBy=multi-user.target

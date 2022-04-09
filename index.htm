@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  div {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    height: 100vh;
+    width: 100vw;
+    background-color: slategrey;
+  }
+
+  canvas {
+    border:1px solid black;
+    width: 39%;
+    height: 20%;
+    background-color: gray;
+    margin: 5%;
+  }
+
+  iframe {
+    width: 39%;
+    height: 5%;
+    background-color: gray;
+    margin: 5%;
+    overflow: hidden;
+  }
+</style>
+</head>
+
+<body>
+<div>
+  <iframe id="headPosition" src="/headPos"></iframe><iframe id="footPosition" src="/footPos"></iframe>
+  <canvas id="headUp"></canvas><canvas id="footUp"></canvas>
+  <canvas id="headDown"></canvas><canvas id="footDown"></canvas>
+  <canvas id="allDown" style="width: 90%;"></canvas>
+</div>
+</body>
+
+<script>
+  const headPosition = document.getElementById('headPosition');
+  const footPosition = document.getElementById('footPosition');
+  const headUp = document.getElementById('headUp');
+  const headDown = document.getElementById('headDown');
+  const footUp = document.getElementById('footUp');
+  const footDown = document.getElementById('footDown');
+  const allDown = document.getElementById('allDown');
+
+  // Button text
+  const headUpText = 'Head Up';
+  const headDownText = 'Head Down';
+  const footUpText = 'Foot Up';
+  const footDownText = 'Foot Down';
+  const allDownText = 'All Down'
+
+  // Buttons need to be redrawn everytime they are pressed. Uses these functions
+  // to redraw the buttons.
+  function drawButton(element, text, color) {
+    ctx = element.getContext('2d');
+    ctx.fillStyle = color;
+    ctx.fillRect(0, 0, element.width, element.height);
+    ctx.fillStyle = 'black';
+    ctx.font = '30px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(text, element.width/2, element.height/2);
+  }
+
+  function buttonUp(element, text) {
+    drawButton(element, text, 'gray')
+  }
+
+  function buttonDown(element, text) {
+    drawButton(element, text, 'dimgrey')
+  }
+
+  function getRequest(url) {
+    var i = document.createElement('img');
+    i.src = url;
+  }
+
+  function updatePosition() {
+    document.getElementById('headPosition').contentWindow.location.reload();
+    document.getElementById('footPosition').contentWindow.location.reload();
+  }
+
+  // Button event listeners to react to touch events
+  headUp.addEventListener('touchstart', e => {
+    getRequest('/headUpStart')
+    buttonDown(headUp, headUpText);
+  });
+
+  headUp.addEventListener('touchend', e => {
+    getRequest('/headUpStop')
+    buttonUp(headUp, headUpText);
+    // updatePosition();
+  });
+
+  headDown.addEventListener('touchstart', e => {
+    getRequest('/headDownStart')
+    buttonDown(headDown, headDownText);
+  });
+
+  headDown.addEventListener('touchend', e => {
+    getRequest('/headDownStop')
+    buttonUp(headDown, headDownText);
+    // updatePosition();
+  });
+
+  footUp.addEventListener('touchstart', e => {
+    getRequest('/footUpStart')
+    buttonDown(footUp, footUpText);
+  });
+
+  footUp.addEventListener('touchend', e => {
+    getRequest('/footUpStop')
+    buttonUp(footUp, footUpText);
+    // updatePosition();
+  });
+
+  footDown.addEventListener('touchstart', e => {
+    getRequest('/footDownStart')
+    buttonDown(footDown, footDownText);
+  });
+
+  footDown.addEventListener('touchend', e => {
+    getRequest('/footDownStop')
+    buttonUp(footDown, footDownText);
+    // updatePosition();
+  });
+
+  allDown.addEventListener('touchstart', e => {
+    getRequest('/allDownRun')
+    buttonDown(allDown, allDownText);
+  });
+
+  allDown.addEventListener('touchend', e => {
+    buttonUp(allDown, allDownText);
+    // updatePosition();
+  });
+
+  // Initial drawing of buttons
+  buttonUp(headUp, headUpText);
+  buttonUp(headDown, headDownText);
+  buttonUp(footUp, footUpText);
+  buttonUp(footDown, footDownText);
+  buttonUp(allDown, allDownText);
+
+  setInterval(updatePosition, 1000);
+  
+
+</script>
+<noscript>Your browser does not support JavaScript</noscript>
+
+</html>
+
